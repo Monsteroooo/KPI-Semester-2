@@ -1,6 +1,4 @@
 import random
-import sys
-import time
 import matplotlib.pyplot as plt
 
 #ФУНКЦІЇ
@@ -18,14 +16,18 @@ def Sedgvik(arr):
     n = len(arr)
     gaps = []
     k = 0
-    while True:
+ 
+    gap = 1 
+    
+    while gap < n:
+        gaps.append(gap)
+        k += 1
+        
         if k % 2 == 0:
             gap = 9 * (2 ** k) - 9 * (2 ** (k // 2)) + 1
         else:
             gap = 8 * (2 ** k) - 6 * (2 ** ((k + 1) // 2)) + 1
-        if gap >= n: break
-        gaps.append(gap)
-        k += 1
+
     gaps.reverse()
     
     for h in gaps:
@@ -39,6 +41,7 @@ def Sedgvik(arr):
             if j >= h and arr[j-h] <= temp: comparisons += 1
             arr[j] = temp
             swaps += 1
+            
     return comparisons, swaps
 
 def Buble_sort(arr):
@@ -154,5 +157,4 @@ def main():
         plt.show()
 
 if __name__ == "__main__":
-    sys.setrecursionlimit(100000)
     main()

@@ -82,13 +82,10 @@ def run_tests():
 
     for test in test_cases:
         for alg_name, func in algorithms:
-            # Робимо копію масиву, бо алгоритми сортують його in-place (змінюють оригінал)
             arr_copy = test["input"].copy()
             
-            # Запускаємо сортування (нас зараз не цікавлять повернені порівняння та перестановки)
             func(arr_copy)
             
-            # Перевіряємо, чи збігається відсортований масив з очікуваним
             if arr_copy == test["expected"]:
                 result = "PASSED"
             else:

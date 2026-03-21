@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{786E70F5-8B62-40B5-93A6-7D8EA9B47051}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingMethods", "CreatingMethods\CreatingMethods.csproj", "{C26056C9-AF08-40D8-8AEE-3BF27E69B7C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingMethods.Tests", "CreatingMethods.Tests\CreatingMethods.Tests.csproj", "{1AA417DE-C673-4843-B693-AC13B060AA29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C26056C9-AF08-40D8-8AEE-3BF27E69B7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26056C9-AF08-40D8-8AEE-3BF27E69B7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26056C9-AF08-40D8-8AEE-3BF27E69B7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26056C9-AF08-40D8-8AEE-3BF27E69B7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA417DE-C673-4843-B693-AC13B060AA29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA417DE-C673-4843-B693-AC13B060AA29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA417DE-C673-4843-B693-AC13B060AA29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA417DE-C673-4843-B693-AC13B060AA29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7272F439-FC95-45FC-A641-D02AD254DCE5}
+	EndGlobalSection
+EndGlobal

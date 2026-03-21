@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multidimensional1Tasks", "Multidimensional1Tasks\Multidimensional1Tasks.csproj", "{31349A42-B068-4EF4-9068-E88ED1E15E6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multidimensional1Tasks.Tests", "Multidimensional1Tasks.Tests\Multidimensional1Tasks.Tests.csproj", "{00D811DA-1F3E-45FA-B4DE-BDE7070B746F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31349A42-B068-4EF4-9068-E88ED1E15E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31349A42-B068-4EF4-9068-E88ED1E15E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31349A42-B068-4EF4-9068-E88ED1E15E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31349A42-B068-4EF4-9068-E88ED1E15E6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00D811DA-1F3E-45FA-B4DE-BDE7070B746F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00D811DA-1F3E-45FA-B4DE-BDE7070B746F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00D811DA-1F3E-45FA-B4DE-BDE7070B746F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00D811DA-1F3E-45FA-B4DE-BDE7070B746F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D272183-4F69-431E-A42D-500398CF2B58}
+	EndGlobalSection
+EndGlobal

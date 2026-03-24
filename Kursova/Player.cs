@@ -12,6 +12,7 @@ public class Player
     {
         this.Money = money;
         this.points = 0;
+        this.hand = new List<Card>();
     }
 
     public int Money
@@ -32,6 +33,12 @@ public class Player
     {
         get
         {
+            int sum = 0;
+            foreach (Card c in this.hand)
+            {
+                sum += c.ReturnAmount();
+            }
+
             return this.points;
         }
 
@@ -48,9 +55,14 @@ public class Player
         return bet;
     }
 
-    public void getCard()
+    public void getCard(Card newCard)
     {
+        this.hand.Add(newCard);
+    }
 
+    public void ClearHand()
+    {
+        this.hand.Clear();
     }
 }
 }

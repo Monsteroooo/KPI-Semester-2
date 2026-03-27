@@ -5,13 +5,11 @@ namespace Players
 public class Player
 {
     private int money;
-    private int points;
-    public List<Card> hand;
+    protected List<Card> hand;
 
     public Player(int money)
     {
         this.Money = money;
-        this.points = 0;
         this.hand = new List<Card>();
     }
 
@@ -39,25 +37,20 @@ public class Player
                 sum += c.ReturnAmount();
             }
 
-            return this.points;
-        }
-
-        set
-        {
-            ArgumentOutOfRangeException.ThrowIfNegative(value);
-            this.points = value;
+            return sum;
         }
     }
 
-    public int makeBet(int bet)
+    public virtual int makeBet(int bet)
     {
         this.money = this.money - bet;
         return bet;
     }
 
-    public void getCard(Card newCard)
+    public virtual bool getCard(Card newCard)
     {
         this.hand.Add(newCard);
+        return true;
     }
 
     public void ClearHand()

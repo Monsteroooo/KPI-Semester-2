@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 
 namespace Cards
 {
@@ -5,11 +6,17 @@ public class Deck
 {
     private Random random;
     public Card[] deck = new Card[52];
+    public Stack<Card> cardsStack = new Stack<Card>();
 
     public Deck()
     {
-        GenerateDeck();
         this.random = new Random();
+        GenerateDeck();
+        Shuffle();
+        foreach (Card c in deck)
+        {
+            this.cardsStack.Push(c);
+        }
     }
 
     private void GenerateDeck()
@@ -33,6 +40,18 @@ public class Deck
             Card temp = deck[i];
             deck[i] = deck[j];
             deck[j] = temp;
+        }
+    }
+
+    public Card DrawCard()
+    {
+        if (cardsStack.Count > 0)
+        {
+            return cardsStack.Pop();
+        }
+        else
+        {
+            throw new ArgumnetException("stack cant be empty", cardsStack);
         }
     }
 }

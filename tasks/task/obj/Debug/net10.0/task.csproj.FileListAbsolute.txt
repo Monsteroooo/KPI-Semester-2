@@ -1,0 +1,5 @@
+/home/Monstero/Projects/Semester_2/tasks/task/obj/Debug/net10.0/task.GeneratedMSBuildEditorConfig.editorconfig
+/home/Monstero/Projects/Semester_2/tasks/task/obj/Debug/net10.0/task.AssemblyInfoInputs.cache
+/home/Monstero/Projects/Semester_2/tasks/task/obj/Debug/net10.0/task.AssemblyInfo.cs
+/home/Monstero/Projects/Semester_2/tasks/task/obj/Debug/net10.0/task.csproj.CoreCompileInputs.cache
+/home/Monstero/Projects/Semester_2/tasks/task/obj/Debug/net10.0/task.sourcelink.json

@@ -14,7 +14,6 @@ class DSU:
     def union(self, i, j):
         root_i = self.find(i)
         root_j = self.find(j)
-        
         if root_i != root_j:
             if self.rank[root_i] < self.rank[root_j]:
                 self.parent[root_i] = root_j
@@ -25,6 +24,14 @@ class DSU:
                 self.rank[root_i] += 1
             return True
         return False
+
+def is_symmetric(matrix):
+    n = len(matrix)
+    for i in range(n):
+        for j in range(n):
+            if matrix[i][j] != matrix[j][i]:
+                return False
+    return True
 
 def generate_random_graph(n, max_weight=20):
     matrix = [[0] * n for _ in range(n)]
@@ -37,18 +44,25 @@ def generate_random_graph(n, max_weight=20):
     return matrix
 
 def get_manual_input():
-    try:
-        n = int(input("Введіть n: "))
-        matrix = [[0] * n for _ in range(n)]
-        for i in range(n):
-            while True:
-                row = list(map(int, input(f"v{i}: ").split()))
-                if len(row) == n:
-                    matrix[i] = row
-                    break
-        return n, matrix
-    except ValueError:
-        return get_manual_input()
+    while True:
+        try:
+            n = int(input("Введіть n: "))
+            matrix = [[0] * n for _ in range(n)]
+            print(f"Введіть матрицю ({n}x{n}):")
+            for i in range(n):
+                while True:
+                    row = list(map(int, input(f"v{i}: ").split()))
+                    if len(row) == n:
+                        matrix[i] = row
+                        break
+                    print(f"Помилка! Має бути {n} чисел.")
+            
+            if is_symmetric(matrix):
+                return n, matrix
+            else:
+                print("\nПомилка: Граф орієнтований (матриця не симетрична)! Спробуйте ще раз.\n")
+        except ValueError:
+            print("Помилка: Вводьте лише цілі числа.")
 
 def print_matrix(matrix):
     n = len(matrix)
@@ -70,7 +84,6 @@ def boruvka(matrix):
     num_components = n
     mst_weight = 0
     mst_edges = []
-
     while num_components > 1:
         cheapest = [[-1, -1, float('inf')] for _ in range(n)]
         for u in range(n):
@@ -84,7 +97,6 @@ def boruvka(matrix):
                             cheapest[set_u] = [u, v, weight]
                         if weight < cheapest[set_v][2]:
                             cheapest[set_v] = [u, v, weight]
-
         edges_added = False
         for i in range(n):
             if cheapest[i][2] != float('inf'):
@@ -97,11 +109,9 @@ def boruvka(matrix):
                     mst_edges.append((u, v, weight))
                     num_components -= 1
                     edges_added = True
-
         if not edges_added:
             print("\nГраф не є зв'язним!")
             return
-
     print(f"\nВага МПД: {mst_weight}")
     for u, v, w in mst_edges:
         print(f"v{u}-v{v}: {w}")
@@ -111,7 +121,7 @@ if __name__ == "__main__":
     if choice == '2':
         n, graph = get_manual_input()
     else:
-        n = 8
+        n = 6
         graph = generate_random_graph(n)
     print_matrix(graph)
     boruvka(graph)

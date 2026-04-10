@@ -42,7 +42,7 @@ while (keepPlaying)
         Console.Write("Введіть вашу ставку: ");
         if (int.TryParse(Console.ReadLine(), out bet) && bet > 0 && bet <= game.player.Money)
             break;
-        Console.WriteLine("Некоректна ставка. Вона має бути більшою за 0 і не перевищувати ваш баланс.");
+        Console.WriteLine("Некоректна ставка. Вона має бути більшою за 0, бути цілим значенням, не повинна писатися в експоненційному вигляді, повинна бути записана в десятковій системі числення, і не перевищувати ваш баланс.");
     }
 
     game.StartGame(bet);

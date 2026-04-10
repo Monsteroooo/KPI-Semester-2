@@ -55,6 +55,7 @@ public class Player
     {
         get
         {
+            int acesCount = 0;
             int sum = 0;
             foreach (Card c in this.hand)
             {

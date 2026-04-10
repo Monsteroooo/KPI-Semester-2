@@ -79,8 +79,9 @@ namespace Game
         
         public void PlayerHit()
         {
-            this.player.getCard(this.Dealer.deck.DrawCard());
-            OnMessageSent?.Invoke(this.player, $"You took a card. Points: {this.player.Points}", MessageType.TurnAction);
+            Card drawnCard = this.Dealer.deck.DrawCard();
+            this.player.getCard(drawnCard);
+            OnMessageSent?.Invoke(this.player, $"Ви витягнули: {drawnCard.ToString()} | Ваші очки: {this.player.Points}", MessageType.TurnAction);
 
             if (this.player.Points > 21)
             {

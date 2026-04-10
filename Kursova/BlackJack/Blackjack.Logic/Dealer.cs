@@ -16,6 +16,31 @@ namespace Game
             getCard();
             getCard();
         }
+
+        public void ShowFirstCard()
+        {
+            Console.WriteLine("Dealer's first card: " + this.hand[0].ToString());
+        }
+
+        public void ShowAllCards()
+        {
+            Console.WriteLine("Dealer's cards: ");
+            foreach (Card c in this.hand)
+            {
+                Console.WriteLine(c.ToString());
+            }
+        }
+
+        public int CardsValue()
+        {
+            int sum = 0;
+            foreach (Card c in this.hand)
+            {
+                sum += c.ReturnAmount();
+            }
+
+            return sum;
+        }
         
         public void getCard(Card newCard)
         {

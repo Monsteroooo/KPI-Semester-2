@@ -1,33 +1,34 @@
+using System;
+using System.Collections.Generic;
+using Cards;
+using Players;
+
 namespace Game
 {
     public class Dealer
     {
-        private Deck deck;
-        private List<Card> hand;
+        public Deck deck;
+        public List<Card> hand;
 
-        public Diller()
+        public event Action<string>? OnMessageSent;
+
+        public Dealer()
         {
             this.deck = new Deck();
             this.hand = new List<Card>();
         }
 
-        public void TakeTwoCards()
-        {
-            getCard();
-            getCard();
-        }
-
         public void ShowFirstCard()
         {
-            Console.WriteLine("Dealer's first card: " + this.hand[0].ToString());
+            OnMessageSent?.Invoke("Dealer's first card: " + this.hand[0].ToString());
         }
 
         public void ShowAllCards()
         {
-            Console.WriteLine("Dealer's cards: ");
+            OnMessageSent?.Invoke("Dealer's cards: ");
             foreach (Card c in this.hand)
             {
-                Console.WriteLine(c.ToString());
+                OnMessageSent?.Invoke(c.ToString());
             }
         }
 

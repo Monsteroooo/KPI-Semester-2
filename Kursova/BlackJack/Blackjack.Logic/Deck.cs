@@ -51,7 +51,7 @@ public class Deck
         }
         else
         {
-            throw new ArgumnetException("stack cant be empty", cardsStack);
+            throw new InvalidOperationException("stack cant be empty");
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using Cards;
 
 namespace Players
 {
@@ -6,16 +8,17 @@ public class Bot_1 : Player
     private Random random;
 
     public Bot_1()
-    : base(1000)
+    : base(100)
     {
         this.random = new Random();
     }
 
-    public override int makeBet(int bet)
+    public override void makeBet(int bet)
     {
-        bet = (int)(this.Money * random.Next(5, 11) / 100);
-        this.Money = this.Money - bet;
-        return bet;
+        int actual_bet;
+        actual_bet = (int)(this.Money * random.Next(5, 11) / 100);
+        this.Bet = actual_bet;
+        this.Money = this.Money - this.Bet;
     }
 
     public override bool getCard(Card newCard)

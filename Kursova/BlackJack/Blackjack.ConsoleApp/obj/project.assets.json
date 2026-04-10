@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net10.0": {}
+    "net10.0": {
+      "Blackjack.Logic/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Blackjack.Logic.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Blackjack.Logic.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Blackjack.Logic/1.0.0": {
+      "type": "project",
+      "path": "../Blackjack.Logic/Blackjack.Logic.csproj",
+      "msbuildProject": "../Blackjack.Logic/Blackjack.Logic.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0": []
+    "net10.0": [
+      "Blackjack.Logic >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "/home/Monstero/.nuget/packages/": {}
@@ -31,7 +50,11 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/Monstero/Projects/Semester_2/Kursova/BlackJack/Blackjack.Logic/Blackjack.Logic.csproj": {
+              "projectPath": "/home/Monstero/Projects/Semester_2/Kursova/BlackJack/Blackjack.Logic/Blackjack.Logic.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

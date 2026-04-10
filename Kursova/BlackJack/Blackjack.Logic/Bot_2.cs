@@ -1,3 +1,5 @@
+using System;
+using Cards;
 
 namespace Players
 {
@@ -7,24 +9,25 @@ public class Bot_2 : Player
     public bool isLost;
 
     public Bot_2()
-    : base(1000)
+    : base(100)
     {
         this.random = new Random();
     }
 
-    public override int makeBet(int bet)
+    public override void makeBet(int bet)
     {
+        int actual_bet;
         if (isLost)
         {
-            bet = this.Money;
+            actual_bet = this.Money;
         }
         else
         {
-            bet = (int)(this.Money * random.Next(30, 51) / 100);
+            actual_bet = (int)(this.Money * random.Next(30, 51) / 100);
         }
 
-        this.Money = this.Money - bet;
-        return bet;
+        this.Bet = actual_bet;
+        this.Money = this.Money - this.Bet;
     }
 
     public override bool getCard(Card newCard)

@@ -1,16 +1,40 @@
 using Cards;
 using System.Collections.Generic;
+
 namespace Players
 {
 public class Player
 {
     private int money;
-    protected List<Card> hand;
+    public List<Card> hand;
+    public int bet;
 
     public Player(int money)
     {
         this.Money = money;
         this.hand = new List<Card>();
+    }
+
+    public int Bet
+    {
+        get
+        {
+            return this.bet;
+        }
+
+        set
+        {
+            if (value > this.money)
+            {
+                throw new ArgumentOutOfRangeException("Bet cannot be greater than the amount of money you have.");
+            }
+            else if (value < 0)
+            {
+                ArgumentOutOfRangeException.ThrowIfNegative(value);
+            }
+
+            this.bet = value;
+        }
     }
 
     public int Money
@@ -41,11 +65,15 @@ public class Player
         }
     }
 
-    public virtual int makeBet(int bet)
+
+
+    public virtual void makeBet(int amount)
     {
-        this.money = this.money - bet;
-        return bet;
+        this.Bet = amount;
+        this.money = this.money - this.Bet;
     }
+
+
 
     public virtual bool getCard(Card newCard)
     {

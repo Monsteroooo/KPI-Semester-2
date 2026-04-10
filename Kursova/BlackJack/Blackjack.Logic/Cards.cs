@@ -56,5 +56,10 @@ public class Card
                 return (int)this.rank;
         }
     }
+
+    public override string ToString()
+    {
+        return $"{Rank} of {Suit}";
+    }
 }
 }

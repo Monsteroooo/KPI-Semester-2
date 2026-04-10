@@ -1,3 +1,0 @@
-/home/Monstero/Projects/Semester_2/Kursova/BlackJack/Blackjack.ConsoleApp/bin/Release/net10.0/win-x64/publish/Blackjack.ConsoleApp.pdb
-/home/Monstero/Projects/Semester_2/Kursova/BlackJack/Blackjack.ConsoleApp/bin/Release/net10.0/win-x64/publish/Blackjack.Logic.pdb
-/home/Monstero/Projects/Semester_2/Kursova/BlackJack/Blackjack.ConsoleApp/bin/Release/net10.0/win-x64/publish/Blackjack.ConsoleApp.exe

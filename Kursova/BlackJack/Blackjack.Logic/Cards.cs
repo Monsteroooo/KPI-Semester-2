@@ -50,7 +50,7 @@ public class Card
                 return 10;
 
             case RankPos.Ace:
-                return 11;  /// Remake in future
+                return 11;
 
             default:
                 return (int)this.rank;

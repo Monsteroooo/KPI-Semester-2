@@ -38,6 +38,17 @@ namespace Game
             foreach (Card c in this.hand)
             {
                 sum += c.ReturnAmount();
+
+                if (c.Rank == RankPos.Ace)
+                {
+                    acesCount++;
+                }
+            }
+
+            while (sum > 21 && acesCount > 0)
+            {
+                sum -= 10;
+                acesCount--;
             }
 
             return sum;

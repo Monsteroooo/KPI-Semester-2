@@ -21,7 +21,15 @@ while (keepPlaying)
         Console.ResetColor();
         Console.WriteLine("Бажаєте почати повністю нову гру? (y - так, n - вийти)");
         
-        if (Console.ReadLine()?.ToLower() == "y")
+        string? restartInput;
+        while (true)
+        {
+            restartInput = Console.ReadLine()?.Trim().ToLower();
+            if (restartInput == "y" || restartInput == "у" || restartInput == "n" || restartInput == "н") break;
+            Console.WriteLine("Помилка: введіть 'y' (так) або 'n' (ні).");
+        }
+
+        if (restartInput == "y" || restartInput == "у")
         {
             game = new Game.Game();
             SetupEvents(game);
@@ -40,9 +48,14 @@ while (keepPlaying)
     while (true)
     {
         Console.Write("Введіть вашу ставку: ");
-        if (int.TryParse(Console.ReadLine(), out bet) && bet > 0 && bet <= game.player.Money)
-            break;
-        Console.WriteLine("Некоректна ставка. Вона має бути більшою за 0, бути цілим значенням, не повинна писатися в експоненційному вигляді, повинна бути записана в десятковій системі числення, і не перевищувати ваш баланс.");
+        string? betInput = Console.ReadLine()?.Trim();
+        
+        // Перевіряємо, щоб рядок не починався з плюса, і парсимо
+        if (betInput != null && !betInput.StartsWith("+") && int.TryParse(betInput, out bet) && bet > 0 && bet <= game.player.Money)
+        {
+            break; // Ставка валідна, виходимо з циклу
+        }
+        Console.WriteLine("Некоректна ставка. Введіть число більше за 0, без знаку '+', яке не перевищує ваш баланс.");
     }
 
     game.StartGame(bet);
@@ -57,15 +70,23 @@ while (keepPlaying)
     while (game.player.Points <= 21)
     {
         Console.WriteLine("Взяти ще карту? (y - так, n - ні/досить)");
-        string? input = Console.ReadLine()?.ToLower();
+        string? input = Console.ReadLine()?.Trim().ToLower();
 
-        if (input == "y")
+        // Підтримка латинської 'y' та кириличної 'у'
+        if (input == "y" || input == "у")
         {
             game.PlayerHit();
         }
-        else if (input == "n")
+        // Підтримка латинської 'n', кириличної 'н' та 'т' (бо 'n' на клавіатурі це 'т')
+        else if (input == "n" || input == "н" || input == "т")
         {
             break;
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Невідома команда. Будь ласка, введіть 'y' або 'n'.");
+            Console.ResetColor();
         }
     }
 
@@ -77,12 +98,26 @@ while (keepPlaying)
     if (game.player.Money > 0)
     {
         Console.WriteLine("\nЗіграти ще один раунд? (y - так, n - вийти)");
-        if (Console.ReadLine()?.ToLower() == "y")
+        
+        string? nextRoundInput;
+        while (true)
+        {
+            nextRoundInput = Console.ReadLine()?.Trim().ToLower();
+            if (nextRoundInput == "y" || nextRoundInput == "у" || nextRoundInput == "n" || nextRoundInput == "н") break;
+            Console.WriteLine("Помилка: введіть 'y' (так) або 'n' (ні).");
+        }
+
+        if (nextRoundInput == "y" || nextRoundInput == "у")
         {
             game.PrepareNewRound();
         }
+        else if (nextRoundInput == "n" || nextRoundInput == "н")
+        {
+            keepPlaying = false;
+        }
         else
         {
+            Console.WriteLine("Невідома команда. Виходимо з гри.");
             keepPlaying = false;
         }
     }

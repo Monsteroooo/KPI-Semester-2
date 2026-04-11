@@ -70,6 +70,7 @@ namespace Game
             foreach (var bot in this.ActiveBots)
             {
                 bot.makeBet(0);
+                OnMessageSent?.Invoke(this.player, $"{bot.GetType().Name} робить ставку: {bot.Bet}", MessageType.Info);
             }
 
             this.Dealer.ShowFirstCard();
@@ -101,7 +102,9 @@ namespace Game
         {
             while (this.Dealer.CardsValue() < 17)
             {
-                this.Dealer.getCard(this.Dealer.deck.DrawCard());
+                Card drawnCard = this.Dealer.deck.DrawCard();
+                this.Dealer.getCard(drawnCard);
+                OnMessageSent?.Invoke(this.player, $"Дилер витягнув: {drawnCard.ToString()} | Очки дилера: {this.Dealer.CardsValue()}", MessageType.TurnAction);
             }
 
             int cardsValue = this.Dealer.CardsValue();

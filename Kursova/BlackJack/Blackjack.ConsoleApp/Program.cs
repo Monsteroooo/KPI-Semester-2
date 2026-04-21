@@ -1,172 +1,181 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
+using System.Numerics;
+using Raylib_cs;
 using Game;
 using Players;
 
-Console.OutputEncoding = Encoding.UTF8;
-
-Game.Game game = new Game.Game();
-SetupEvents(game);
-
-Console.WriteLine("=== БЛЕКДЖЕК ===");
-
-bool keepPlaying = true;
-
-while (keepPlaying)
+class Program
 {
-    if (game.player.Money <= 0)
+    static void Main()
     {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("\nВИ БАНКРУТ! У вас закінчилися гроші.");
-        Console.ResetColor();
-        Console.WriteLine("Бажаєте почати повністю нову гру? (y - так, n - вийти)");
+        Raylib.InitWindow(800, 600, "Blackjack");
+        Raylib.SetTargetFPS(60);
+
+        Game.Game game = new Game.Game();
+
+        // 1. СТАН ГРИ ТА РЕЗУЛЬТАТИ
+        bool isGameOver = false;
+        // Словник для зберігання фінального тексту ("You won!", "Busted!") для кожного гравця
+        Dictionary<Player, string> roundResults = new Dictionary<Player, string>();
+
+        // 2. ПІДПИСКА НА ПОДІЇ
+        // Ловимо повідомлення типу Result і зберігаємо їх у словник для відмальовки
+        game.OnMessageSent += (player, message, type) =>
+        {
+            if (type == Game.Game.MessageType.Result && player != null)
+            {
+                roundResults[player] = message;
+            }
+        };
+
+        game.StartGame(100);
+
+        Rectangle hitButton = new Rectangle(280, 520, 100, 40);
+        Rectangle standButton = new Rectangle(420, 520, 100, 40);
         
-        string? restartInput;
-        while (true)
+        // Нова кнопка по центру екрану
+        Rectangle playAgainBtn = new Rectangle(300, 270, 200, 50); 
+
+        while (!Raylib.WindowShouldClose())
         {
-            restartInput = Console.ReadLine()?.Trim().ToLower();
-            if (restartInput == "y" || restartInput == "у" || restartInput == "n" || restartInput == "н") break;
-            Console.WriteLine("Помилка: введіть 'y' (так) або 'n' (ні).");
+            // ==========================================
+            // ЛОГІКА (ОБРОБКА КЛІКІВ)
+            // ==========================================
+            if (Raylib.IsMouseButtonPressed(MouseButton.Left))
+            {
+                Vector2 mousePos = Raylib.GetMousePosition();
+
+                if (!isGameOver) // Стан 1: Гра триває
+                {
+                    if (Raylib.CheckCollisionPointRec(mousePos, hitButton) && game.player.Points <= 21)
+                    {
+                        game.PlayerHit();
+                        // Якщо після добору очок > 21, PlayerHit сам викликає FinishGame
+                        if (game.player.Points > 21) isGameOver = true;
+                    }
+                    else if (Raylib.CheckCollisionPointRec(mousePos, standButton))
+                    {
+                        game.FinishGame();
+                        isGameOver = true; // Перемикаємо стан
+                    }
+                }
+                else // Стан 2: Гра завершена (GameOver)
+                {
+                    if (Raylib.CheckCollisionPointRec(mousePos, playAgainBtn))
+                    {
+                        if (game.player.Money > 0)
+                        {
+                            game.PrepareNewRound();
+                            roundResults.Clear(); // Очищаємо старі результати
+                            isGameOver = false;
+                            game.StartGame(100);
+                        }
+                        else
+                        {
+                            // Якщо гравець банкрут, створюємо об'єкт гри з нуля
+                            game = new Game.Game();
+                            game.OnMessageSent += (player, message, type) => {
+                                if (type == Game.Game.MessageType.Result && player != null) roundResults[player] = message;
+                            };
+                            roundResults.Clear();
+                            isGameOver = false;
+                            game.StartGame(100);
+                        }
+                    }
+                }
+            }
+
+            // ==========================================
+            // ВІДМАЛЬОВКА
+            // ==========================================
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(new Color(0, 80, 0, 255)); 
+
+            // 1. ДИЛЕР
+            int dealerX = 300;
+            int dealerY = 20;
+            Raylib.DrawText("- DEALER -", dealerX, dealerY, 20, Color.Gold);
+            Raylib.DrawText($"Points: {game.Dealer.CardsValue()}", dealerX, dealerY + 25, 20, Color.White);
+            
+            int dYOffset = dealerY + 50;
+            foreach (var card in game.Dealer.hand)
+            {
+                Raylib.DrawText($"- {card.ToString()}", dealerX, dYOffset, 20, Color.White);
+                dYOffset += 20;
+            }
+
+            // 2. ГРАВЕЦЬ
+            int playerX = 20;
+            int playerY = 350;
+            Raylib.DrawText("- YOU -", playerX, playerY, 20, Color.Green);
+            Raylib.DrawText($"Balance: {game.player.Money} $", playerX, playerY + 25, 20, Color.Gold);
+            Raylib.DrawText($"Bet: {game.player.Bet} $", playerX, playerY + 45, 20, Color.Gold);
+            Raylib.DrawText($"Points: {game.player.Points}", playerX, playerY + 65, 20, Color.White);
+            
+            int pYOffset = playerY + 90;
+            foreach (var card in game.player.hand) 
+            {
+                Raylib.DrawText($"- {card.ToString()}", playerX, pYOffset, 18, Color.LightGray);
+                pYOffset += 20;
+            }
+            
+            // МАЛЮЄМО РЕЗУЛЬТАТ ГРАВЦЯ
+            if (isGameOver && roundResults.ContainsKey(game.player))
+            {
+                Raylib.DrawText(roundResults[game.player], playerX, pYOffset + 10, 18, Color.Yellow);
+            }
+
+            // 3. БОТИ
+            Vector2[] botPositions = new Vector2[] {
+                new Vector2(20, 80),
+                new Vector2(600, 80),
+                new Vector2(600, 350)
+            };
+
+            for (int i = 0; i < game.ActiveBots.Count; i++)
+            {
+                var bot = game.ActiveBots[i];
+                int bX = (int)botPositions[i].X;
+                int bY = (int)botPositions[i].Y;
+
+                Raylib.DrawText($"- {bot.GetType().Name} -", bX, bY, 20, Color.SkyBlue);
+                Raylib.DrawText($"Balance: {bot.Money} $", bX, bY + 25, 18, Color.Gold);
+                Raylib.DrawText($"Bet: {bot.Bet} $", bX, bY + 45, 18, Color.Gold);
+                Raylib.DrawText($"Points: {bot.Points}", bX, bY + 65, 18, Color.White);
+
+                int botCardY = bY + 90;
+                foreach (var card in bot.hand)
+                {
+                    Raylib.DrawText($"- {card.ToString()}", bX, botCardY, 16, Color.LightGray);
+                    botCardY += 20;
+                }
+
+                // МАЛЮЄМО РЕЗУЛЬТАТ БОТА
+                if (isGameOver && roundResults.ContainsKey(bot))
+                {
+                    Raylib.DrawText(roundResults[bot], bX, botCardY + 10, 16, Color.Yellow);
+                }
+            }
+
+            // 4. КНОПКИ (Рендеринг залежить від стану гри)
+            if (!isGameOver)
+            {
+                Raylib.DrawRectangleRec(hitButton, Color.LightGray);
+                Raylib.DrawText("HIT", (int)hitButton.X + 32, (int)hitButton.Y + 10, 20, Color.Black);
+
+                Raylib.DrawRectangleRec(standButton, Color.LightGray);
+                Raylib.DrawText("STAND", (int)standButton.X + 15, (int)standButton.Y + 10, 20, Color.Black);
+            }
+            else
+            {
+                Raylib.DrawRectangleRec(playAgainBtn, Color.Blue);
+                Raylib.DrawText("PLAY AGAIN", (int)playAgainBtn.X + 40, (int)playAgainBtn.Y + 15, 20, Color.White);
+            }
+
+            Raylib.EndDrawing();
         }
 
-        if (restartInput == "y" || restartInput == "у")
-        {
-            game = new Game.Game();
-            SetupEvents(game);
-            continue; 
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    Console.WriteLine($"\nВаш поточний баланс: {game.player.Money}");
-    Console.WriteLine($"Ботів у грі: {game.ActiveBots.Count}");
-
-    int bet = 0;
-    while (true)
-    {
-        Console.Write("Введіть вашу ставку: ");
-        string? betInput = Console.ReadLine()?.Trim();
-        
-        // Перевіряємо, щоб рядок не починався з плюса, і парсимо
-        if (betInput != null && !betInput.StartsWith("+") && int.TryParse(betInput, out bet) && bet > 0 && bet <= game.player.Money)
-        {
-            break; // Ставка валідна, виходимо з циклу
-        }
-        Console.WriteLine("Некоректна ставка. Введіть число більше за 0, без знаку '+', яке не перевищує ваш баланс.");
-    }
-
-    game.StartGame(bet);
-
-    Console.WriteLine("\nВаші карти:");
-    foreach (var card in game.player.hand)
-    {
-        Console.WriteLine($"- {card.ToString()}");
-    }
-    Console.WriteLine($"Очки: {game.player.Points}\n");
-
-    while (game.player.Points <= 21)
-    {
-        Console.WriteLine("Взяти ще карту? (y - так, n - ні/досить)");
-        string? input = Console.ReadLine()?.Trim().ToLower();
-
-        // Підтримка латинської 'y' та кириличної 'у'
-        if (input == "y" || input == "у")
-        {
-            game.PlayerHit();
-        }
-        // Підтримка латинської 'n', кириличної 'н' та 'т' (бо 'n' на клавіатурі це 'т')
-        else if (input == "n" || input == "н" || input == "т")
-        {
-            break;
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Невідома команда. Будь ласка, введіть 'y' або 'n'.");
-            Console.ResetColor();
-        }
-    }
-
-    if (game.player.Points <= 21)
-    {
-        game.FinishGame();
-    }
-
-    if (game.player.Money > 0)
-    {
-        Console.WriteLine("\nЗіграти ще один раунд? (y - так, n - вийти)");
-        
-        string? nextRoundInput;
-        while (true)
-        {
-            nextRoundInput = Console.ReadLine()?.Trim().ToLower();
-            if (nextRoundInput == "y" || nextRoundInput == "у" || nextRoundInput == "n" || nextRoundInput == "н") break;
-            Console.WriteLine("Помилка: введіть 'y' (так) або 'n' (ні).");
-        }
-
-        if (nextRoundInput == "y" || nextRoundInput == "у")
-        {
-            game.PrepareNewRound();
-        }
-        else if (nextRoundInput == "n" || nextRoundInput == "н")
-        {
-            keepPlaying = false;
-        }
-        else
-        {
-            Console.WriteLine("Невідома команда. Виходимо з гри.");
-            keepPlaying = false;
-        }
-    }
-}
-
-Console.WriteLine("Дякуємо за гру!");
-
-// МЕТОДИ-ОБРОБНИКИ ПОДІЙ
-
-void SetupEvents(Game.Game g)
-{
-    g.OnMessageSent += HandleGameMessage;
-    g.OnGameEnded += HandleGameEnded;
-    g.Dealer.OnMessageSent += (msg) => Console.WriteLine($"[Дилер]: {msg}");
-}
-
-void HandleGameMessage(Player player, string message, Game.Game.MessageType type)
-{
-    switch (type)
-    {
-        case Game.Game.MessageType.Warning:
-            Console.ForegroundColor = ConsoleColor.Red;
-            break;
-        case Game.Game.MessageType.Result:
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            break;
-        case Game.Game.MessageType.TurnAction:
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            break;
-        default:
-            Console.ForegroundColor = ConsoleColor.White;
-            break;
-    }
-
-    Console.WriteLine(message);
-    Console.ResetColor();
-}
-
-void HandleGameEnded(System.Collections.Generic.List<Player> participants, string finalMessage)
-{
-    Console.WriteLine($"\n{finalMessage}");
-    Console.WriteLine("-------------------------");
-    
-    foreach (var p in participants)
-    {
-        string name = p.GetType().Name;
-        if (name == "Player") name = "Ви (Гравець)";
-        
-        string status = p.Money <= 0 ? "[БАНКРУТ]" : "";
-        Console.WriteLine($"{name} | Баланс: {p.Money} {status} | Очки у цьому раунді: {p.Points}");
+        Raylib.CloseWindow();
     }
 }

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Lab7/Lab7.csproj" />
+  <Project Path="Lab7Lib/Lab7Lib.csproj" />
+</Solution>

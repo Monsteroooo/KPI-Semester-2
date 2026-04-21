@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "T8ZiZcITw4E=",
+  "success": true,
+  "projectFilePath": "/home/Monstero/Projects/Semester_2/OOP/Lab_7/Lab7Lib/Lab7Lib.csproj",
+  "expectedPackageFiles": [
+    "/home/Monstero/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.4/microsoft.aspnetcore.app.ref.10.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}

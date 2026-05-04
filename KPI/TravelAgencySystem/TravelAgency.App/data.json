@@ -1,0 +1,76 @@
+{
+  "Users": [
+    {
+      "Id": 1,
+      "Username": "agent",
+      "PasswordHash": "f44d1ac9bf0c69b083380b86dbdf3b73797150e3cca4820ac399f7917e607647",
+      "FullName": "\u0406\u0432\u0430\u043D \u0410\u0433\u0435\u043D\u0442\u0456\u0432",
+      "Role": "Agent"
+    },
+    {
+      "Id": 2,
+      "Username": "client",
+      "PasswordHash": "186474c1f2c2f735a54c2cf82ee8e87f2a5cd30940e280029363fecedfc5328c",
+      "FullName": "\u041C\u0430\u0440\u0456\u044F \u041A\u043B\u0456\u0454\u043D\u0442\u043E\u0432\u0430",
+      "Role": "Client"
+    },
+    {
+      "Id": 3,
+      "Username": "Monstero",
+      "PasswordHash": "ef169b082143ab8374bf1506c31843d799a4f9d13fa8bbc9b3de5ced378f0419",
+      "FullName": "Volodymyr",
+      "Role": "Agent"
+    },
+    {
+      "Id": 4,
+      "Username": "Monsteroo",
+      "PasswordHash": "ef169b082143ab8374bf1506c31843d799a4f9d13fa8bbc9b3de5ced378f0419",
+      "FullName": "Volodymyr",
+      "Role": "Client"
+    }
+  ],
+  "Flights": [
+    {
+      "Id": 1,
+      "FlightNumber": "PS101",
+      "Origin": "\u041A\u0438\u0457\u0432",
+      "Destination": "\u0412\u0430\u0440\u0448\u0430\u0432\u0430",
+      "DepartureTime": "0001-01-01T00:00:00",
+      "ArrivalTime": "0001-01-01T00:00:00",
+      "Price": 3500,
+      "TotalSeats": 150,
+      "AvailableSeats": 149
+    },
+    {
+      "Id": 2,
+      "FlightNumber": "2",
+      "Origin": "Test1",
+      "Destination": "Test2",
+      "DepartureTime": "0001-01-01T00:00:00",
+      "ArrivalTime": "0001-01-01T00:00:00",
+      "Price": 100,
+      "TotalSeats": 0,
+      "AvailableSeats": 0
+    },
+    {
+      "Id": 3,
+      "FlightNumber": "PS303",
+      "Origin": "\u041E\u0434\u0435\u0441\u0430",
+      "Destination": "\u0420\u0438\u043C",
+      "DepartureTime": "0001-01-01T00:00:00",
+      "ArrivalTime": "0001-01-01T00:00:00",
+      "Price": 5000,
+      "TotalSeats": 100,
+      "AvailableSeats": 100
+    }
+  ],
+  "Bookings": [
+    {
+      "Id": 1,
+      "UserId": 2,
+      "FlightId": 1,
+      "BookingDate": "2026-05-04T11:21:00.4861662+03:00",
+      "Status": "Paid"
+    }
+  ]
+}

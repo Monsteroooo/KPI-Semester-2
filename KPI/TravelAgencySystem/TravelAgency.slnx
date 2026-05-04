@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TravelAgency.App/TravelAgency.App.csproj" />
+  <Project Path="TravelAgency.Models/TravelAgency.Models.csproj" />
+</Solution>

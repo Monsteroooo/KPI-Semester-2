@@ -142,8 +142,16 @@ namespace Game
                 }
                 else if (p.Points == 21)
                 {
-                    OnMessageSent?.Invoke(p, $"{playerName} GOT BLACKJACK!", MessageType.Result);
-                    p.Money += p.Bet * 3;
+                    if (p.hand.Count == 2)
+                    {
+                        OnMessageSent?.Invoke(p, $"{playerName} GOT BLACKJACK!", MessageType.Result);
+                        p.Money += p.Bet * 3;
+                    }
+                    else
+                    {
+                        OnMessageSent?.Invoke(p, $"{playerName} won with 21 points!", MessageType.Result);
+                        p.Money += p.Bet * 2;
+                    }
                 }
                 else if (dealerTotal > 21 || p.Points > dealerTotal)
                 {

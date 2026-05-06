@@ -22,6 +22,12 @@ public class Bot_3 : Player
 
     public override bool getCard(Card newCard)
     {
+        if (this.hand.Count < 2)
+        {
+            this.hand.Add(newCard);
+            return true;
+        }
+
         bool wantCard;
         if (random.Next(0, 101) > 50)
         {

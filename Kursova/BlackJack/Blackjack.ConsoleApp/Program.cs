@@ -81,7 +81,6 @@ class Program
         List<int> codepoints = new List<int>();
 
         for (int i = 32; i < 127; i++) codepoints.Add(i);
-
         for (int i = 1024; i < 1280; i++) codepoints.Add(i);
 
         uaFont = Raylib.LoadFontEx("font.ttf", 48, codepoints.ToArray(), codepoints.Count);
@@ -234,10 +233,29 @@ class Program
                     if (Raylib.CheckCollisionPointRec(mousePos, pauseBtn)) { previousState = currentState; currentState = GameState.Paused; }
                     else if (currentState == GameState.Betting)
                     {
-                        if (Raylib.CheckCollisionPointRec(mousePos, betMinusBtn)) currentBet = Math.Max(1, currentBet - 10); 
-                        else if (Raylib.CheckCollisionPointRec(mousePos, betPlusBtn)) currentBet = Math.Min(game.player.Money, currentBet + 10); 
-                        else if (Raylib.CheckCollisionPointRec(mousePos, betMaxBtn)) currentBet = game.player.Money; 
-                        else if (Raylib.CheckCollisionPointRec(mousePos, dealBtn)) { game.StartGame(currentBet); currentState = GameState.Playing; }
+                        if (Raylib.CheckCollisionPointRec(mousePos, betMinusBtn)) 
+                        {
+                            if (currentBet % 10 != 0) currentBet = (currentBet / 10) * 10;
+                            else currentBet -= 10;
+                            
+                            if (currentBet < 10) currentBet = 10;
+                            if (currentBet > game.player.Money) currentBet = game.player.Money;
+                        } 
+                        else if (Raylib.CheckCollisionPointRec(mousePos, betPlusBtn)) 
+                        {
+                            if (currentBet % 10 != 0) currentBet = ((currentBet / 10) + 1) * 10;
+                            else currentBet += 10;
+                            
+                            if (currentBet > game.player.Money) currentBet = game.player.Money;
+                        } 
+                        else if (Raylib.CheckCollisionPointRec(mousePos, betMaxBtn)) 
+                        {
+                            currentBet = game.player.Money; 
+                        } 
+                        else if (Raylib.CheckCollisionPointRec(mousePos, dealBtn)) 
+                        { 
+                            game.StartGame(currentBet); currentState = GameState.Playing; 
+                        }
                     }
                     else if (currentState == GameState.Playing)
                     {

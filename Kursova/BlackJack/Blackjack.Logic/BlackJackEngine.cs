@@ -23,7 +23,6 @@ namespace Game
         public event Action<Player, string, MessageType>? OnMessageSent;
         public event Action<List<Player>, string>? OnGameEnded;
 
-
         public Game()
         {
             this.player = new Player(100);
@@ -59,7 +58,7 @@ namespace Game
             this.Dealer.getCard(this.Dealer.deck.DrawCard());
             this.Dealer.getCard(this.Dealer.deck.DrawCard());
 
-            OnMessageSent?.Invoke(this.player, $"Game started! Your cards: ", MessageType.Info);
+            OnMessageSent?.Invoke(this.player, $"Гра почалася! Ваші карти: ", MessageType.Info);
             foreach (var card in this.player.hand)
             {
                 OnMessageSent?.Invoke(this.player, $"{card.Rank} of {card.Suit}", MessageType.Info);
@@ -75,7 +74,7 @@ namespace Game
 
             this.Dealer.ShowFirstCard();
 
-            OnMessageSent?.Invoke(this.player, "Cards dealt. Your turn!", MessageType.Info);
+            OnMessageSent?.Invoke(this.player, "Карти роздано. Ваш хід!", MessageType.Info);
         }
         
         public void PlayerHit()
@@ -86,7 +85,7 @@ namespace Game
 
             if (this.player.Points > 21)
             {
-                OnMessageSent?.Invoke(this.player, "Bust! You exceeded 21 points.", MessageType.Warning);
+                OnMessageSent?.Invoke(this.player, "Перебір! Ви перевищили 21 очко.", MessageType.Warning);
                 FinishGame();
             }
         }
@@ -108,7 +107,7 @@ namespace Game
             }
 
             int cardsValue = this.Dealer.CardsValue();
-            OnMessageSent?.Invoke(this.player, $"Dealer's turn ended with {cardsValue} points.", MessageType.Info);
+            OnMessageSent?.Invoke(this.player, $"Хід дилера завершено з {cardsValue} очками.", MessageType.Info);
         }
 
         public void BotTurn()
@@ -128,48 +127,48 @@ namespace Game
             
             if (dealerTotal > 21)
             {
-                OnMessageSent?.Invoke(this.player, $"Dealer busted with {dealerTotal} points!", MessageType.Result);
+                OnMessageSent?.Invoke(this.player, $"Дилер перебрав ({dealerTotal})!", MessageType.Result);
             }
 
             foreach (var p in participants)
             {
                 string playerName = p.GetType().Name;
-                if (playerName == "Player") playerName = "You";
+                if (playerName == "Player") playerName = "Ви";
 
                 if (p.Points > 21)
                 {
-                    OnMessageSent?.Invoke(p, $"{playerName} busted with {p.Points}!", MessageType.Result);
+                    OnMessageSent?.Invoke(p, $"{playerName}: Перебір ({p.Points})!", MessageType.Result);
                 }
                 else if (p.Points == 21)
                 {
                     if (p.hand.Count == 2)
                     {
-                        OnMessageSent?.Invoke(p, $"{playerName} GOT BLACKJACK!", MessageType.Result);
+                        OnMessageSent?.Invoke(p, $"{playerName}: БЛЕКДЖЕК!", MessageType.Result);
                         p.Money += p.Bet * 3;
                     }
                     else
                     {
-                        OnMessageSent?.Invoke(p, $"{playerName} won with 21 points!", MessageType.Result);
+                        OnMessageSent?.Invoke(p, $"{playerName} виграв (21)!", MessageType.Result);
                         p.Money += p.Bet * 2;
                     }
                 }
                 else if (dealerTotal > 21 || p.Points > dealerTotal)
                 {
-                    OnMessageSent?.Invoke(p, $"{playerName} won against dealer!", MessageType.Result);
+                    OnMessageSent?.Invoke(p, $"{playerName} виграв!", MessageType.Result);
                     p.Money += p.Bet * 2;
                 }
                 else if (p.Points == dealerTotal)
                 {
-                    OnMessageSent?.Invoke(p, $"{playerName} tied with dealer.", MessageType.Result);
+                    OnMessageSent?.Invoke(p, $"{playerName}: Нічия.", MessageType.Result);
                     p.Money += p.Bet;
                 }
                 else
                 {
-                    OnMessageSent?.Invoke(p, $"{playerName} lost to dealer.", MessageType.Result);
+                    OnMessageSent?.Invoke(p, $"{playerName} програв.", MessageType.Result);
                 }
             }
 
-            OnGameEnded?.Invoke(participants, "--- FINAL RESULTS ---");
+            OnGameEnded?.Invoke(participants, "--- ФІНАЛЬНІ РЕЗУЛЬТАТИ ---");
         }
     }
 }

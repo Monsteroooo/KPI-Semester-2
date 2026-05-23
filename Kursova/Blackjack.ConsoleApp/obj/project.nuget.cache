@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "6y4L9/BtObw=",
+  "success": true,
+  "projectFilePath": "/home/Monstero/Projects/Kursova-git/Blackjack.ConsoleApp/Blackjack.ConsoleApp.csproj",
+  "expectedPackageFiles": [
+    "/home/Monstero/.nuget/packages/raylib-cs/7.0.2/raylib-cs.7.0.2.nupkg.sha512",
+    "/home/Monstero/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.4/microsoft.aspnetcore.app.ref.10.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}
